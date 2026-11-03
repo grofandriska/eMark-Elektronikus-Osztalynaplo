@@ -18,7 +18,7 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    @NotNull(message = "student must have a class !")
+    @NotNull(message = "Student must have a class!")
     private Class className;
     @NotBlank(message = "Full name is mandatory")
     private String studentName;

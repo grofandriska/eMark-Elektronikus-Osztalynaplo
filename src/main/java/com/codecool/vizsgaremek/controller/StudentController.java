@@ -49,13 +49,13 @@ public class StudentController {
     }
 
     @PutMapping("/update/{id}")
-    public void update(@PathVariable Long id,@Valid @RequestBody Student student,BindingResult bindingResult) {
+    public Student update(@PathVariable Long id, @Valid @RequestBody Student student, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             bindingResult
                     .getAllErrors()
                     .forEach(errorObj -> System.out.println(errorObj.getDefaultMessage()));
         }
-        studentService.updateStudent(id, student);
+        return studentService.updateStudent(id, student);
     }
 
     @GetMapping("/{id}")
