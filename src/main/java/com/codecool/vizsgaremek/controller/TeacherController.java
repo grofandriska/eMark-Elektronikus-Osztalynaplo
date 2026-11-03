@@ -20,7 +20,7 @@ public class TeacherController {
     }
 
     @PostMapping("add")
-    public Teacher saveTeacher(@Valid @RequestBody Teacher teacher, BindingResult bindingResult) {
+    public Teacher saveTeacher(@Valid @RequestBody Teacher teacher) {
         return teacherService.saveTeacher(teacher);
     }
 
@@ -30,13 +30,8 @@ public class TeacherController {
     }
 
     @PutMapping("update/{id}")
-    public void updateTeacher(@PathVariable Long id, @Valid @RequestBody Teacher teacher, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            bindingResult
-                    .getAllErrors()
-                    .forEach(errorObj -> System.out.println(errorObj.getDefaultMessage()));
-        }
-        teacherService.updateTeacherById(id, teacher);
+    public Teacher updateTeacher(@PathVariable Long id, @Valid @RequestBody Teacher teacher) {
+        return teacherService.updateTeacherById(id, teacher);
     }
 
     @DeleteMapping("delete/{id}")

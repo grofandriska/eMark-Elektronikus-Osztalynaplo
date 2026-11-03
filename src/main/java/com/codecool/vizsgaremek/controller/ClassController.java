@@ -2,19 +2,16 @@ package com.codecool.vizsgaremek.controller;
 
 import com.codecool.vizsgaremek.modell.Class;
 import com.codecool.vizsgaremek.service.ClassService;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
-
-//TODO: catch exc here
 @RestController
 @RequestMapping("/class")
 public class ClassController {
 
-    ClassService classService;
+    private final ClassService classService;
 
     public ClassController(ClassService classService) {
         this.classService = classService;
@@ -26,12 +23,7 @@ public class ClassController {
     }
 
     @PostMapping("/add")
-    public Class add(@Valid @RequestBody Class classEntity, BindingResult bindingResult)  {
-        if (bindingResult.hasErrors()) {
-            bindingResult
-                    .getAllErrors()
-                    .forEach(errorObj -> System.out.println(errorObj.getDefaultMessage()));
-        }
+    public Class add(@Valid @RequestBody Class classEntity)  {
         return classService.addClass(classEntity);
     }
 
@@ -51,14 +43,7 @@ public class ClassController {
     }
 
     @PutMapping("/updateClass/{id}")
-    public Class update(@PathVariable Long id,
-                       @Valid @RequestBody Class classEntity,
-                       BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            bindingResult
-                    .getAllErrors()
-                    .forEach(errorObj -> System.out.println(errorObj.getDefaultMessage()));
-        }
+    public Class update(@PathVariable Long id, @Valid @RequestBody Class classEntity) {
         return classService.updateClass(id, classEntity);
     }
 }

@@ -10,10 +10,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/mark")
-//TODO: Rename mark to grade
 public class MarkController {
 
-    MarkService markService;
+    private final MarkService markService;
 
     public MarkController(MarkService markService) {
         this.markService = markService;
@@ -25,13 +24,8 @@ public class MarkController {
     }
 
     @PostMapping("add")
-    public Mark add(@Valid @RequestBody Mark mark, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            bindingResult
-                    .getAllErrors()
-                    .forEach(errorObj -> System.out.println(errorObj.getDefaultMessage()));
-        }
-       return markService.add(mark);
+    public Mark add(@Valid @RequestBody Mark mark) {
+        return markService.add(mark);
     }
 
     @GetMapping("average/{id}")
@@ -50,17 +44,20 @@ public class MarkController {
     }
 
     @PutMapping("update/{id}")
-    public Mark update(@PathVariable Long id, @RequestBody Mark mark) {
+    public Mark update(@PathVariable Long id, @Valid @RequestBody Mark mark) {
         return markService.update(id, mark);
     }
 
     @GetMapping("get/{id}/{subject}")
-    public Double getStudentAverageBySubject(@PathVariable Long id, @PathVariable String subject) {
+    public Double getStudentAverageBySubject(@PathVariable Long id,
+                                             @PathVariable String subject) {
         return markService.getStudentAverageBySubject(id, subject);
     }
 
     @GetMapping("get/{id}/{subject}/{month}")
-    public Double getStudentAverageBySubject(@PathVariable Long id, @PathVariable String subject, @PathVariable String month) {
+    public Double getStudentAverageBySubjectAndMonth(@PathVariable Long id,
+                                                     @PathVariable String subject,
+                                                     @PathVariable String month) {
         return markService.getStudentAverageBySubjectAndMonth(id, subject, month);
     }
 }

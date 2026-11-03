@@ -24,12 +24,7 @@ public class StudentController {
     }
 
     @PostMapping("add")
-    public Student save(@Valid @RequestBody Student student, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            bindingResult
-                    .getAllErrors()
-                    .forEach(errorObj -> System.out.println(errorObj.getDefaultMessage()));
-        }
+    public Student save(@Valid @RequestBody Student student) {
         return studentService.save(student);
     }
 
@@ -49,12 +44,7 @@ public class StudentController {
     }
 
     @PutMapping("/update/{id}")
-    public Student update(@PathVariable Long id, @Valid @RequestBody Student student, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            bindingResult
-                    .getAllErrors()
-                    .forEach(errorObj -> System.out.println(errorObj.getDefaultMessage()));
-        }
+    public Student update(@PathVariable Long id, @Valid @RequestBody Student student) {
         return studentService.updateStudent(id, student);
     }
 
