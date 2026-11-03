@@ -23,10 +23,10 @@ public class Mark {
     private String subject;
     @NotBlank(message = "Month name is mandatory")
     private String month;
-    @OneToOne
+    @ManyToOne
     @NotNull(message = "Student id must be given ")
     private Student student;
-    @OneToOne
+    @ManyToOne
     @NotNull(message = "Please add teacher ,and check it's subject too ")
     private Teacher teacher;
 }

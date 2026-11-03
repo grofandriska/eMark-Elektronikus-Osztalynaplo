@@ -38,9 +38,9 @@ insert into mark (id, mark, month, student_id, subject, teacher_id) values (6,5,
 insert into mark (id, mark, month, student_id, subject, teacher_id) values (7,3, 'April' , 1, 'Testnevelés' ,5);
 insert into mark (id, mark, month, student_id, subject, teacher_id) values (8,4, 'April' , 2, 'Testnevelés' ,5);
 insert into mark (id, mark, month, student_id, subject, teacher_id) values (9,3, 'April' , 3, 'Testnevelés' ,5);
-insert into mark (id, mark, month, student_id, subject, teacher_id) values (10,4 ,'May', 1, 'Testnevelés' ,5);
+insert into mark (id, mark, month, student_id, subject, teacher_id) values (10,4 , 'May', 1, 'Testnevelés' ,5);
 insert into mark (id, mark, month, student_id, subject, teacher_id) values (11,3 ,'May' , 2, 'Testnevelés' ,5);
-insert into mark (id, mark, month, student_id, subject, teacher_id) values (12,1 ,'May', 3, 'Testnevelés' ,5);
+insert into mark (id, mark, month, student_id, subject, teacher_id) values (12,1 , 'May', 3, 'Testnevelés' ,5);
 insert into mark (id, mark, month, student_id, subject, teacher_id) values (13,2 ,'June' , 1, 'Német' ,2);
 insert into mark (id, mark, month, student_id, subject, teacher_id) values (14,3 ,'June' , 2, 'Német', 2);
 insert into mark (id, mark, month, student_id, subject, teacher_id) values (15,4 ,'June' , 3, 'Német' ,2);
@@ -54,9 +54,9 @@ insert into mark (id, mark, month, student_id, subject, teacher_id) values (21,5
 insert into mark (id, mark, month, student_id, subject, teacher_id) values (22,3, 'April' , 4, 'Testnevelés' ,5);
 insert into mark (id, mark, month, student_id, subject, teacher_id) values (23,4, 'April' , 5, 'Testnevelés' ,5);
 insert into mark (id, mark, month, student_id, subject, teacher_id) values (24,3, 'April' , 6, 'Testnevelés' ,5);
-insert into mark (id, mark, month, student_id, subject, teacher_id) values (25,4 ,'May', 4, 'Testnevelés' ,5);
+insert into mark (id, mark, month, student_id, subject, teacher_id) values (25,4 , 'May', 4, 'Testnevelés' ,5);
 insert into mark (id, mark, month, student_id, subject, teacher_id) values (26,3 ,'May' , 5, 'Testnevelés' ,5);
-insert into mark (id, mark, month, student_id, subject, teacher_id) values (27,1 ,'May', 6, 'Testnevelés' ,5);
+insert into mark (id, mark, month, student_id, subject, teacher_id) values (27,1 , 'May', 6, 'Testnevelés' ,5);
 insert into mark (id, mark, month, student_id, subject, teacher_id) values (28,2 ,'June' , 4, 'Német' ,2);
 insert into mark (id, mark, month, student_id, subject, teacher_id) values (29,3 ,'June' , 5, 'Német', 2);
 insert into mark (id, mark, month, student_id, subject, teacher_id) values (30,4 ,'June' , 6, 'Német' ,2);

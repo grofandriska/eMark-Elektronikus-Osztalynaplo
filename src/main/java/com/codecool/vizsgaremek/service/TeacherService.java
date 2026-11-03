@@ -1,20 +1,18 @@
 package com.codecool.vizsgaremek.service;
 
 import com.codecool.vizsgaremek.exception.types.TeacherException;
-import com.codecool.vizsgaremek.mapper.TeacherMapper;
 import com.codecool.vizsgaremek.modell.Teacher;
 import com.codecool.vizsgaremek.repository.TeacherRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Slf4j
 public class TeacherService {
 
-    private TeacherRepository teacherRepository;
+    private final TeacherRepository teacherRepository;
 
 
     public TeacherService(TeacherRepository teacherRepository) {

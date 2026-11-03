@@ -4,7 +4,6 @@ import com.codecool.vizsgaremek.exception.types.MarkException;
 import com.codecool.vizsgaremek.exception.types.NoMarksFoundException;
 import com.codecool.vizsgaremek.exception.types.SubjectMismatchException;
 import com.codecool.vizsgaremek.exception.types.TeacherException;
-import com.codecool.vizsgaremek.mapper.MarkMapper;
 import com.codecool.vizsgaremek.modell.Mark;
 import com.codecool.vizsgaremek.modell.Teacher;
 
@@ -13,15 +12,14 @@ import com.codecool.vizsgaremek.repository.TeacherRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Slf4j
 public class MarkService {
 
-    private MarkRepository markRepository;
-    private TeacherRepository teacherRepository;
+    private final MarkRepository markRepository;
+    private final TeacherRepository teacherRepository;
 
     public MarkService(MarkRepository markRepository, TeacherRepository teacherRepository) {
         this.markRepository = markRepository;
