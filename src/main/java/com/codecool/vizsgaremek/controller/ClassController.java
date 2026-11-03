@@ -51,7 +51,7 @@ public class ClassController {
     }
 
     @PutMapping("/updateClass/{id}")
-    public void update(@PathVariable Long id,
+    public Class update(@PathVariable Long id,
                        @Valid @RequestBody Class classEntity,
                        BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -59,6 +59,6 @@ public class ClassController {
                     .getAllErrors()
                     .forEach(errorObj -> System.out.println(errorObj.getDefaultMessage()));
         }
-        classService.updateClass(id, classEntity);
+        return classService.updateClass(id, classEntity);
     }
 }
