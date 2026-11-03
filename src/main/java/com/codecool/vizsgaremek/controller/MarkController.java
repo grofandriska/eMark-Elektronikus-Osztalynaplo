@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/mark")
+//TODO: Rename mark to grade
 public class MarkController {
 
     MarkService markService;

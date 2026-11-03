@@ -1,6 +1,6 @@
 package com.codecool.vizsgaremek.service;
 
-import com.codecool.vizsgaremek.exception.MarkException;
+import com.codecool.vizsgaremek.exception.types.MarkException;
 import com.codecool.vizsgaremek.mapper.MarkMapper;
 import com.codecool.vizsgaremek.modell.Mark;
 import com.codecool.vizsgaremek.modell.Teacher;
@@ -42,13 +42,11 @@ public class MarkService {
     }
 
     public Mark getMarkById(Long id) {
-
         try {
             Mark responseMark;
             responseMark = markRepository.findById(id).get();
             log.info("Mark found by :" + id);
             return responseMark;
-
         } catch (MarkException exception) {
             log.info("Something went wrong when looking for Mark by ID :" + id + " see Details" + exception.getMessage());
             throw new MarkException(id);
@@ -57,7 +55,6 @@ public class MarkService {
 
     public List<Mark> getMarkList() {
         return markRepository.findAll();
-
     }
 
     public void deleteMarkByID(Long id) {

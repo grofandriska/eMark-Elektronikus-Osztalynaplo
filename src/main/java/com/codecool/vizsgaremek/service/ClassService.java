@@ -1,6 +1,6 @@
 package com.codecool.vizsgaremek.service;
 
-import com.codecool.vizsgaremek.exception.ClassException;
+import com.codecool.vizsgaremek.exception.types.ClassException;
 import com.codecool.vizsgaremek.modell.Class;
 import com.codecool.vizsgaremek.repository.ClassRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,6 @@ public class ClassService {
 
     public ClassService(ClassRepository classRepository) {
         this.classRepository = classRepository;
-
     }
 
     public Class addClass(Class newClass) {
@@ -29,21 +28,16 @@ public class ClassService {
         return classRepository.findAll();
     }
 
-    public Class getClassByName(String className) {
-        Class classResponse = new Class();
-        List<Class> classResponseList;
-        classResponseList = classRepository.findAll();
-        for (Class classEntity : classResponseList) {
-            if (classEntity.getName().equals(className)) {
-                classResponse = classEntity;
-                return classResponse;
-            }
+    public Class getClassByName(String className) /*throws */{
+        Class classResponse = classRepository.findByName(className);
+        if (classResponse == null) {
+            log.info("  (!getClassByName!)  Class not found by :" + className);
+            throw new RuntimeException("Can't get class by this name !"); //placeholder for checked exception
         }
-        log.info("  (!getClassByName!)  Class not found by :" + className);
-        throw new RuntimeException("Can't get class by this name !");
-
+        return classResponse;
     }
 
+    //TODO: IfPresent
     public Class getClassById(Long id) {
         try {
             Class classResponse;

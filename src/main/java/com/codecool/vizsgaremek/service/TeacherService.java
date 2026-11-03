@@ -1,6 +1,6 @@
 package com.codecool.vizsgaremek.service;
 
-import com.codecool.vizsgaremek.exception.TeacherException;
+import com.codecool.vizsgaremek.exception.types.TeacherException;
 import com.codecool.vizsgaremek.mapper.TeacherMapper;
 import com.codecool.vizsgaremek.modell.Teacher;
 import com.codecool.vizsgaremek.repository.TeacherRepository;

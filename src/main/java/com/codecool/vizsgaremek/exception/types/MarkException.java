@@ -1,4 +1,4 @@
-package com.codecool.vizsgaremek.exception;
+package com.codecool.vizsgaremek.exception.types;
 
 public class MarkException  extends RuntimeException {
 

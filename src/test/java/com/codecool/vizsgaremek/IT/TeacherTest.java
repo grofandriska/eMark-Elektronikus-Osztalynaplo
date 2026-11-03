@@ -1,6 +1,5 @@
 package com.codecool.vizsgaremek.IT;
 
-import com.codecool.vizsgaremek.exception.advice.TeacherAdvice;
 import com.codecool.vizsgaremek.modell.Class;
 import com.codecool.vizsgaremek.modell.Teacher;
 import org.junit.jupiter.api.BeforeEach;
