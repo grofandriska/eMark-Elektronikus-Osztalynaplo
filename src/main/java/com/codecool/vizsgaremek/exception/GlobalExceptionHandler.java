@@ -1,9 +1,6 @@
 package com.codecool.vizsgaremek.exception;
 
-import com.codecool.vizsgaremek.exception.types.ClassException;
-import com.codecool.vizsgaremek.exception.types.MarkException;
-import com.codecool.vizsgaremek.exception.types.StudentException;
-import com.codecool.vizsgaremek.exception.types.TeacherException;
+import com.codecool.vizsgaremek.exception.types.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,8 +19,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             MarkException.class,
             StudentException.class,
             TeacherException.class,
-            ClassException.class
+            ClassException.class,
+            NoMarksFoundException.class
     })
+
     public ResponseEntity<Object> handleNotFound(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage()));
@@ -43,5 +42,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                                                              HttpStatus status, WebRequest request) {
         ErrorResponse error = new ErrorResponse(status.value(), status.getReasonPhrase());
         return new ResponseEntity<>(error, headers, status);
+    }
+
+    @ExceptionHandler(SubjectMismatchException.class)
+    public ResponseEntity<Object> handleBadRequest(SubjectMismatchException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
     }
 }

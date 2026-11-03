@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -36,42 +39,38 @@ public class MarkTest {
 
     @Test
     public void addNewMark() {
-
         Class testClass = new Class(1L, "1.A");
         testRestTemplate.postForObject("http://localhost:" + port + "/class/add", testClass, Class.class);
 
         Student studentTest = new Student(1L, testClass, "Kis Géza", "Male");
-        testRestTemplate.postForObject("http://localhost:" + port + "/student" + "/add", studentTest, Student.class);
+        testRestTemplate.postForObject("http://localhost:" + port + "/student/add", studentTest, Student.class);
 
         Teacher testTeacher = new Teacher(1L, "Erős Pista", "JAVA", "Male");
-        testRestTemplate.postForObject("http://localhost:" + port + "/teacher" + "/add", testTeacher, Teacher.class);
+        testRestTemplate.postForObject("http://localhost:" + port + "/teacher/add", testTeacher, Teacher.class);
 
-        Mark mark = new Mark(4L, 3.0, "JAVA", "June", studentTest, testTeacher);
+        Mark mark = new Mark(null, 3.0, "JAVA", "June", studentTest, testTeacher);
         Mark result = testRestTemplate.postForObject(baseUrl + "/add", mark, Mark.class);
 
-        assertEquals(mark.getId(), result.getId());
+        assertNotNull(result.getId());
+        assertEquals(3.0, result.getMark());
+        assertEquals("JAVA", result.getSubject());
     }
 
     @Test
-    public void getMarks() {
+    public void addMarkWithWrongSubjectReturnsBadRequest() {
         Class testClass = new Class(1L, "1.A");
         testRestTemplate.postForObject("http://localhost:" + port + "/class/add", testClass, Class.class);
 
         Student studentTest = new Student(1L, testClass, "Kis Géza", "Male");
-        testRestTemplate.postForObject("http://localhost:" + port + "/student" + "/add", studentTest, Student.class);
+        testRestTemplate.postForObject("http://localhost:" + port + "/student/add", studentTest, Student.class);
 
         Teacher testTeacher = new Teacher(1L, "Erős Pista", "JAVA", "Male");
-        testRestTemplate.postForObject("http://localhost:" + port + "/teacher" + "/add", testTeacher, Teacher.class);
+        testRestTemplate.postForObject("http://localhost:" + port + "/teacher/add", testTeacher, Teacher.class);
 
-        Mark mark = new Mark(4L, 3.0, "JAVA", "June", studentTest, testTeacher);
-        Mark mark2 = new Mark(5L, 3.0, "JAVA", "June", studentTest, testTeacher);
+        Mark mark = new Mark(null, 3.0, "MATH", "June", studentTest, testTeacher);
+        ResponseEntity<String> response = testRestTemplate.postForEntity(baseUrl + "/add", mark, String.class);
 
-        Mark result = testRestTemplate.postForObject(baseUrl + "/add", mark, Mark.class);
-        Mark result2 = testRestTemplate.postForObject(baseUrl + "/add", mark2, Mark.class);
-
-        List<Mark> teacherList = List.of(testRestTemplate.getForObject(baseUrl + "/getAll", Mark[].class));
-        assertEquals(2, teacherList.size());
-
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test

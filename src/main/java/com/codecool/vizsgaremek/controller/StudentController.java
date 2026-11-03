@@ -2,7 +2,6 @@ package com.codecool.vizsgaremek.controller;
 
 import com.codecool.vizsgaremek.modell.Student;
 import com.codecool.vizsgaremek.service.StudentService;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -12,7 +11,7 @@ import java.util.List;
 @RestController
 public class StudentController {
 
-    StudentService studentService;
+    private final StudentService studentService;
 
     public StudentController(StudentService studentService) {
         this.studentService = studentService;

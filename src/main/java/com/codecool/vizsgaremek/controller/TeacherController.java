@@ -3,7 +3,6 @@ package com.codecool.vizsgaremek.controller;
 import com.codecool.vizsgaremek.modell.Teacher;
 import com.codecool.vizsgaremek.service.TeacherService;
 
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -13,7 +12,7 @@ import java.util.List;
 @RequestMapping("/teacher")
 public class TeacherController {
 
-    TeacherService teacherService;
+    private final TeacherService teacherService;
 
     public TeacherController(TeacherService teacherService) {
         this.teacherService = teacherService;

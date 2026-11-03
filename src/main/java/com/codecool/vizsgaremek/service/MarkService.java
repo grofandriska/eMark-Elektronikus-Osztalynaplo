@@ -1,6 +1,9 @@
 package com.codecool.vizsgaremek.service;
 
 import com.codecool.vizsgaremek.exception.types.MarkException;
+import com.codecool.vizsgaremek.exception.types.NoMarksFoundException;
+import com.codecool.vizsgaremek.exception.types.SubjectMismatchException;
+import com.codecool.vizsgaremek.exception.types.TeacherException;
 import com.codecool.vizsgaremek.mapper.MarkMapper;
 import com.codecool.vizsgaremek.modell.Mark;
 import com.codecool.vizsgaremek.modell.Teacher;
@@ -19,38 +22,23 @@ public class MarkService {
 
     private MarkRepository markRepository;
     private TeacherRepository teacherRepository;
-    private MarkMapper markMapper;
 
-    public MarkService(MarkRepository markRepository, TeacherRepository teacherRepository, MarkMapper markMapper) {
+    public MarkService(MarkRepository markRepository, TeacherRepository teacherRepository) {
         this.markRepository = markRepository;
         this.teacherRepository = teacherRepository;
-        this.markMapper = markMapper;
     }
 
     public Mark add(Mark mark) {
-        try {
-            Long teacherId = mark.getTeacher().getId();
-            Teacher teacher = teacherRepository.findById(teacherId).get();
-            if (teacher.getSubject().equals(mark.getSubject())) {
-                markRepository.save(mark);
-            }
-        } catch (RuntimeException e) {
-            log.info("Exception details:"+e);
-            throw new RuntimeException("Please check your saving data. Teacher's subject and the mark's subject must match !  ");
+        Long teacherId = mark.getTeacher().getId();
+        Teacher teacher = teacherRepository.findById(teacherId).orElseThrow(() -> new TeacherException(teacherId));
+        if (!teacher.getSubject().equals(mark.getSubject())) {
+            throw new SubjectMismatchException(teacher.getSubject(), mark.getSubject());
         }
-        return mark;
+        return markRepository.save(mark);
     }
 
     public Mark getMarkById(Long id) {
-        try {
-            Mark responseMark;
-            responseMark = markRepository.findById(id).get();
-            log.info("Mark found by :" + id);
-            return responseMark;
-        } catch (MarkException exception) {
-            log.info("Something went wrong when looking for Mark by ID :" + id + " see Details" + exception.getMessage());
-            throw new MarkException(id);
-        }
+        return markRepository.findById(id).orElseThrow(() -> new MarkException(id));
     }
 
     public List<Mark> getMarkList() {
@@ -58,66 +46,44 @@ public class MarkService {
     }
 
     public void deleteMarkByID(Long id) {
-        try {
-            markRepository.deleteById(id);
-        } catch (MarkException e) {
-            log.info("went wrong when deleting Mark :" + id + "id ! see Details" + e.getMessage());
-            throw new MarkException(id);
-        }
+        markRepository.delete(getMarkById(id));
     }
 
-    public Mark update(Long id, Mark mark) {
-        markRepository.findById(id).map(mark1 -> {
-            mark1.setMark(mark.getMark());
-            mark1.setMonth(mark.getMonth());
-            mark1.setStudent(mark.getStudent());
-            mark1.setSubject(mark.getSubject());
-            mark1.setTeacher(mark.getTeacher());
-
-            return markRepository.save(mark1);
-        });
-        throw new MarkException(id);
-
+    public Mark update(Long id, Mark markUpdate) {
+        Mark mark = getMarkById(id);
+        mark.setMark(markUpdate.getMark());
+        mark.setMonth(markUpdate.getMonth());
+        mark.setStudent(markUpdate.getStudent());
+        mark.setSubject(markUpdate.getSubject());
+        mark.setTeacher(markUpdate.getTeacher());
+        return markRepository.save(mark);
     }
 
     public double getStudentAverage(Long id) {
-        List<Double> marks = new ArrayList<>();
-        double sum = 0;
-        List<Mark> temp = markRepository.findAll();
-        for (Mark mark : temp) {
-            if (mark.getStudent().getId().equals(id)) {
-                marks.add(mark.getMark());
-                sum = sum + mark.getMark();
-            }
-        }
-        return sum / marks.size();
-
+        return markRepository.findAll().stream()
+                .filter(mark -> mark.getStudent().getId().equals(id))
+                .mapToDouble(Mark::getMark)
+                .average()
+                .orElseThrow(() -> new NoMarksFoundException(id));
     }
 
     public double getStudentAverageBySubject(Long id, String subject) {
-        List<Double> marks = new ArrayList<>();
-        double sum = 0;
-        List<Mark> result = markRepository.findAll();
-        for (Mark mark : result) {
-            if (mark.getStudent().getId().equals(id) && mark.getSubject().equals(subject)) {
-                marks.add(mark.getMark());
-                sum = sum + mark.getMark();
-            }
-        }
-        return sum / marks.size();
+        return markRepository.findAll().stream()
+                .filter(mark -> mark.getStudent().getId().equals(id))
+                .filter(mark -> mark.getSubject().equals(subject))
+                .mapToDouble(Mark::getMark)
+                .average()
+                .orElseThrow(() -> new NoMarksFoundException(id));
     }
 
     public double getStudentAverageBySubjectAndMonth(Long id, String subject, String month) {
-        List<Double> marks = new ArrayList<>();
-        double sum = 0;
-        List<Mark> result = markRepository.findAll();
-        for (Mark mark : result) {
-            if (mark.getStudent().getId().equals(id) && mark.getSubject().equals(subject) && mark.getMonth().equals(month)) {
-                marks.add(mark.getMark());
-                sum = sum + mark.getMark();
-            }
-        }
-        return sum / marks.size();
+        return markRepository.findAll().stream()
+                .filter(mark -> mark.getStudent().getId().equals(id))
+                .filter(mark -> mark.getSubject().equals(subject))
+                .filter(mark -> mark.getMonth().equals(month))
+                .mapToDouble(Mark::getMark)
+                .average()
+                .orElseThrow(() -> new NoMarksFoundException(id));
     }
 
 }
