@@ -4,6 +4,6 @@
 mvn package
 mvn --version)
 
-docker build . -t simple -f Dockerfile.dockerfile
+docker build . -t simple -f Dockerfile (or .)
 
 docker run -p 8080:8080 simple
